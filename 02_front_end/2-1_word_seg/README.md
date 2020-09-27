@@ -1,5 +1,5 @@
 ## 1. 实验要求
-按照流程跑通CRF分词模型，报告测试集的相关指标，并提交实验报告。
+按照流程跑通CRF分词模型，自己编写脚本计算测试集的相关指标（精确率、召回率，F1），并提交实验报告。
 ## 2. 实验步骤
 ### 2.1 编译CRF++
 ```bash
@@ -12,7 +12,7 @@ make install
 export PATH=CRF++-0.58/build/bin/:$PATH
 ```
 ### 2.2 数据准备
-文件夹中提供了来自人民日报的两份不同大小的数据集。根据自己设备的情况选择使用的数据集。
+文件夹中提供了来自人民日报的两份不同大小的数据集。读者根据自己设备的情况选择使用的数据集。
 
 * 数据一: data/people_daliy_10W
 * 数据二: data/people_daliy_26W
@@ -37,6 +37,4 @@ crf_learn -f 3 -c 4.0 config/template data/demo/train.data model.demo
 ```
 crf_test -m model.demo data/demo/test.input > data/demo/test.out
 ```
-#### 计算客观指标:
-
-4) 目录crfpp/example/pd10w/test_data下执行：python 4_accuracy.py
+得到的test.out 即为解码结果。读者根据data/demo/test.raw 和 data/demo/test.out 计算精确率，召回率以及F1值。
