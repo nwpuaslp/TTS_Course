@@ -1,31 +1,30 @@
 ## 1. 实验要求
 
-按照流程跑通g2p模型，计算测试集的准确率，并提交实验报告。
+按照流程跑通g2p模型，计算测试集的准确率，并提交实验pipeline。
 
 ## 2. 实验步骤
 ### 2.1  数据
 
 + 共99164行数据。
 
-+ 数据注音中^表示非中文字符。
++ 数据注音中^表示非汉字字符,如标点符号等。
 
-+ 由于部分训练过程需要比较大的内存，如果你的计算机不支持全量数据的训练，你可以使用mini-train.dict来进行训练。
++ 由于部分训练过程需要比较大的内存，如果计算机不支持全量数据的训练，可以使用mini-train.dict来进行训练。
 
 ### 2.2 作业内容
 
-1. [必做] 多音字n-gram模型
+1. ##### [必做] G2P n-gram模型
 
-    + 编写脚本修改成训练需要的数据格式，格式请参考reference.txt.
+    + 4.1给出了开源英文数据集CMU的训练、测试等过程，读者可以先参照4.1流程，跑通英文数据集，在理清流程的情况下，训练提供的中文数据集，并在test.dict上做解码，使用测试脚本计算准确率。
+    + 英文部分过程和中文不同，中文数据无法使用phonetisaurus-align。需要编写脚本将提供的中文数据修改成训练需要的数据格式，格式请参考reference.txt.
 
-    + 参照参考流程，训练提供的中文数据集，并在test.dict上做解码,使用测试脚本计算准确率。
+2. ##### [选做] G2P rnnlm模型
 
-2. [选做] 多音字rnnlm模型
+    + 在完成实验1的情况下，参照4.2流程，按照实验1中的数据格式训练，并在test.dict上做解码,使用测试脚本计算准确率。
 
-    + 在完成实验1的情况下，参照参考流程，按照你在实验1中的数据格式训练，并在test.dict上做解码,使用测试脚本计算准确率。
+ 
 
-   
-
-   *备注:你可以通过调整部分参数来使模型性能提升。*
+***备注:读者可以通过调整部分参数来使模型性能提升***
 
 ## 3 文件路径说明
 
@@ -34,13 +33,15 @@
   + mini-train.dict 部分训练集
   + test.dict 测试集不带注音
   + gt.dict 测试集带注音
-+ acc.py 准确率计算脚本。你的解码格式需要与gt.dict一致。
++ acc.py 准确率计算脚本。解码格式需要与gt.dict一致。
 + README.md 说明文件
 + reference.txt 需要的数据格式参考
 
 ## 4 参考流程
 
-1. **[必做] 多音字n-gram模型**
+#### 1.[必做] G2P n-gram模型
+
+##### a. 安装相关工具与配置环境
 
 + This build was tested via AWS EC2 with a fresh Ubuntu 14.04 and 16.04 base, and m4.large instance.
 
@@ -48,8 +49,6 @@
 $ sudo apt-get update
 # Basics
 $ sudo apt-get install git g++ autoconf-archive make libtool
-# Python bindings
-$ sudo apt-get install python-setuptools python-dev
 # mitlm (to build a quick play model)
 $ sudo apt-get install gfortran
 ```
@@ -93,27 +92,62 @@ $ sudo make install
 $ cd
 ```
 
-+ Train an n-gram model：
++ Grab and install mitlm to build a quick test model with the cmudict (5m): 
 
 ```shell
-$ cd Phonetisaurus
-# train.corpus is the correct data format converted from train.dict, Please refer to reference.txt for the format.
-$ estimate-ngram -o 8 -t train.corpus \
-  -wl dict.o8.arpa
-$ phonetisaurus-arpa2wfst --lm=dict.o8.arpa --ofile=dict.o8.fst
+$ git clone https://github.com/mitlm/mitlm.git
+$ cd mitlm/
+$ ./autogen.sh
+$ make
+$ sudo make install
+$ cd
 ```
+
++ Grab a copy of the latest version of CMUdict and clean it up a bit:
+
+```shell
+$ mkdir example
+$ cd example
+$ wget https://raw.githubusercontent.com/cmusphinx/cmudict/master/cmudict.dict
+# Clean it up a bit and reformat:
+$ cat cmudict.dict \
+  | perl -pe 's/\([0-9]+\)//;
+              s/\s+/ /g; s/^\s+//;
+              s/\s+$//; @_ = split (/\s+/);
+              $w = shift (@_);
+              $_ = $w."\t".join (" ", @_)."\n";' \
+  > cmudict.formatted.dict
+```
+
+##### b. 修改数据格式与训练
+
++ Align, estimate, and convert a joint n-gram model step-by-step:
+
+```shell
+# Align the dictionary (5m-10m)
+$ phonetisaurus-align --input=cmudict.formatted.dict \
+  --ofile=cmudict.formatted.corpus --seq1_del=false
+# Train an n-gram model (5s-10s):
+$ estimate-ngram -o 8 -t cmudict.formatted.corpus \
+  -wl cmudict.o8.arpa
+# Convert to OpenFst format (10s-20s):
+$ phonetisaurus-arpa2wfst --lm=cmudict.o8.arpa --ofile=cmudict.o8.fst
+$ cd
+```
+
+##### c. 解码
 
 + Generate pronunciations for test data using the wrapper script:
 
 ```shell
-$ phonetisaurus-apply --model train/dict.o8.fst --word_list test.dict > yourresult
+$ phonetisaurus-apply --model train/cmudict.o8.fst --word_list test.wlist > yourresult
 ```
 
+#### 2.[选做] G2P rnnlm模型
 
+##### a.  安装相关工具与配置环境
 
-**[选做] 多音字rnnlm模型**
-
-+ You should install OpenFst-1.5.0：
++ You should install OpenFst-1.5.0(高版本不支持)：
 
 ```shell
 $ wget http://www.openfst.org/twiki/pub/FST/FstDownload/openfst-1.5.0.tar.gz
@@ -139,6 +173,8 @@ $ cd RnnLMG2P
 $ make && make install
 ```
 
+##### b. 训练
+
 + Train the rnnlm model：
 
 ```shell
@@ -146,6 +182,8 @@ $ cd script/
 # train.corpus is the correct data format converted from train.dict, Please refer to reference.txt for the format.
 $ ./train-g2p-rnnlm.py -c train.corpus -p yourmodel
 ```
+
+##### c. 解码
 
 + Generate pronunciations for test data:
 
@@ -158,6 +196,8 @@ $ awk -F '\t' '{print $1"\t"$2}' tmp.txt > yourresult
 
 ## 5 提交内容
 
+##### 1.提交准确率
+
 使用训练好的模型执行以下命令：
 
 ```shell
@@ -165,3 +205,7 @@ python acc.py --src_path yourresult --gt_path gt_path
 ```
 
 分别提交模型在测试集上的准确率文件acc.txt.
+
+##### 2.提交pipeline
+
+分别提交中文数据集实验pipeline，需要准备一个shell脚本，这个脚本可以一次性跑通整个实验流程，并生成准确率，这其中不包括安装和环境配置过程，并且可以给脚本中的每一步写上注释。

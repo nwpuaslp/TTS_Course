@@ -1,3 +1,5 @@
+# ^表示非中文字符,包括标点等. }是字和音的分隔符,如公}gong1表示这里公的发音是gong1 
+
 # in
 公子宽不久去世^谥为节^  gong1 zi3 kuan1 bu4 jiu3 qu4 shi4 ^ shi4 wei4 jie2 ^
 孔鲤知道后^便除了丧服^  kong3 li3 zhi1 dao4 hou4 ^ bian4 chu2 le5 sang1 fu2 ^
