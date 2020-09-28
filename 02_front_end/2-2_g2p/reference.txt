@@ -1,0 +1,8 @@
+# in
+公子宽不久去世^谥为节^  gong1 zi3 kuan1 bu4 jiu3 qu4 shi4 ^ shi4 wei4 jie2 ^
+孔鲤知道后^便除了丧服^  kong3 li3 zhi1 dao4 hou4 ^ bian4 chu2 le5 sang1 fu2 ^
+
+# out
+公}gong1 子}zi3 宽}kuan1 不}bu4 久}jiu3 去}qu4 世}shi4 ^}^ 谥}shi4 为}wei4 节}jie4 ^}^
+孔}kong3 鲤}li3 知}zhi1 道}dao4 后}hou4 ^}^ 便}bian4 除}chu2 了}le5 丧}sang1 服}fu2 ^}^
+
