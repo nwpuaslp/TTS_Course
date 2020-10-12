@@ -168,7 +168,7 @@ $ make && make install
 
 ```shell
 $ cd script/
-# train.corpus is the correct data format converted from train.dict, Please refer to reference.txt for the format.
+# train.corpus is the correct data format converted from train.dict, Please refer to reference.txt for the format. And you should modify "--classes" to meet Chinese dataset needs.
 $ ./train-g2p-rnnlm.py -c train.corpus -p yourmodel
 ```
 
@@ -177,7 +177,7 @@ $ ./train-g2p-rnnlm.py -c train.corpus -p yourmodel
 + Generate pronunciations for test data:
 
 ```shell
-$ ../phonetisaurus-g2prnn --rnnlm=test.rnnlm --test=test.dict --nbest=5 | ./prettify.pl > tmp.txt
+$ ../phonetisaurus-g2prnn --rnnlm=test.rnnlm --test=test.dict --nbest=1 | ./prettify.pl > tmp.txt
 $ awk -F '\t' '{print $1"\t"$2}' tmp.txt > yourresult
 ```
 
