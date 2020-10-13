@@ -1,0 +1,3 @@
+../bin/ltcdf/_ltcdf.o: ../bin/ltcdf/_ltcdf.c /usr/include/stdc-predef.h
+
+/usr/include/stdc-predef.h:
