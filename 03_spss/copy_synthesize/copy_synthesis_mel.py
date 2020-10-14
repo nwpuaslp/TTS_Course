@@ -134,8 +134,8 @@ if __name__ == "__main__":
     hparams={}
     hparams['sr'] = librosa.get_samplerate(fpath)
     hparams['n_fft'] = 512 # fft points (samples)
-    hparams['frame_shift'] = 0.0125 # seconds
-    hparams['frame_length'] = 0.05 # seconds
+    hparams['frame_shift'] = 0.0025 # seconds
+    hparams['frame_length'] = 0.01 # seconds
     hparams['hop_length'] = int(hparams['sr'] * hparams['frame_shift']) # samples.
     hparams['win_length'] = int(hparams['sr'] * hparams['frame_length']) # samples.
     hparams['n_mels'] = 80 # Number of Mel banks to generate
