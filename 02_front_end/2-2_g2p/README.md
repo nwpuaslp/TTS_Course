@@ -31,8 +31,10 @@
 + dataset
   + train.dict 全量训练集
   + mini-train.dict 部分训练集
-  + test.dict 测试集不带注音
-  + gt.dict 测试集带注音
+  + test.dict 测试集不带注音(n-gram模型实验)
+  + gt.dict 测试集带注音(n-gram模型实验)
+  + testRnnlm.dict 测试集不带注音(Rnnlm模型实验)
+  + gtRnnlm.dict 测试集带注音(Rnnlm模型实验)
 + acc.py 准确率计算脚本。解码格式需要与gt.dict一致。
 + README.md 说明文件
 + reference.txt 需要的数据格式参考
@@ -168,8 +170,10 @@ $ make && make install
 
 ```shell
 $ cd script/
-# train.corpus is the correct data format converted from train.dict, Please refer to reference.txt for the format. And you should modify "--classes" to meet Chinese dataset needs.
-$ ./train-g2p-rnnlm.py -c train.corpus -p yourmodel
+# train.corpus is the correct data format converted from train.dict, Please refer to reference.txt for the format. 
+# You should modify "--classes" to meet the Chinese dataset's Pinyin classes. Here the classes are 1255.
+# And you can also adjust the parameter like "--hidden" for better training. "--help" can help you know what parameters can be adjusted.
+$ ./train-g2p-rnnlm.py -c train.corpus -p yourmodel  
 ```
 
 ##### c. 解码
@@ -177,7 +181,7 @@ $ ./train-g2p-rnnlm.py -c train.corpus -p yourmodel
 + Generate pronunciations for test data:
 
 ```shell
-$ ../phonetisaurus-g2prnn --rnnlm=test.rnnlm --test=test.dict --nbest=1 | ./prettify.pl > tmp.txt
+$ ../phonetisaurus-g2prnn --rnnlm=test.rnnlm --test=testRnnlm.dict --nbest=1 | ./prettify.pl > tmp.txt
 $ awk -F '\t' '{print $1"\t"$2}' tmp.txt > yourresult
 ```
 
