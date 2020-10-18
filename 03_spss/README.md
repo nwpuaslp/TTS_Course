@@ -35,9 +35,7 @@ bash copy_synthesize/copy_synthesis_world_16k.sh
 
 #### 采样率48k
 
-```bash
-bash copy_synthesize/copy_synthesis_world_48k.sh
-```
+在copy_synthesis_world_16k.sh基础上修改，可修改参数为输入输出路径(wav_dir\out_dir)、采样率fs、mcsize等
 
 ### (选做) melspectrogram  copy synthesis
 
@@ -168,3 +166,10 @@ bash bash/synthesis_acoustic.sh output_dur output_acoustic <checkpoint>
 ```
 
 最终合成语音在output_acoustic/syn_wav中
+
+
+## 上交作业
+
+需要提交16k、48k采样率的copy synthesis结果
+
+传统模型合成结果
