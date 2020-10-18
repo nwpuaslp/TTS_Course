@@ -25,20 +25,28 @@ bash compile_tools.sh
 
 根据输入 test.wav 通过 world声码器 合成 syn.wav
 
-使用world提取test.wav的f0、sp、ap，然后根据提取出的特征合成 syn.wav
+使用world提取test.wav的f0、sp、ap，然后根据提取出的特征合成 copy_synthesize/16k_wav_syn/000001.resyn.wav
+
+#### 采样率16k
 
 ```bash
-bash copy_synthesize/copy_synthesis.sh copy_synthesize/test.wav
+bash copy_synthesize/copy_synthesis_world_16k.sh
+```
+
+#### 采样率48k
+
+```bash
+bash copy_synthesize/copy_synthesis_world_48k.sh
 ```
 
 ### (选做) melspectrogram  copy synthesis
 
 根据输入 test.wav 通过 griffinlim 合成 syn_mel.wav
 
-使用world提取test.wav的melspectrogram，然后根据提取出的melspectrogram特征合成 syn_mel.wav
+使用world提取test.wav的melspectrogram，然后根据提取出的melspectrogram特征合成 copy_synthesize/syn_mel.wav
 
 ```bash
-python copy_synthesize/copy_synthesis_mel.py copy_synthesize/test.wav
+python copy_synthesize/copy_synthesis_mel.py copy_synthesize/16k_wav/000001.wav
 ```
 
 ## 传统TTS模型 (时长模型、声学模型)
