@@ -1,0 +1,7 @@
+tensorflow-gpu==1.12.0
+librosa==0.7.1
+tqdm==4.11.2
+Unidecode==0.4.20
+ruamel.yaml
+scipy
+soundfile
