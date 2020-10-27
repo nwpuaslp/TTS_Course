@@ -160,7 +160,7 @@ $ source ~/.bashrc
 
 ```shell
 $ git clone https://github.com/AdolfVonKleist/RnnLMG2P.git
-$ cd RnnLMG2P
+$ cd RnnLMG2P/src
 $ make && make install
 ```
 
