@@ -117,7 +117,7 @@ target.shape = [seq_length, target_dim]
 
 时长模型的input的feature_dim为617维，表示文本特征
 
-时长模型的output的target_dim为5维，表示每个音素的时长信息
+时长模型的output的target_dim为5维，表示每个音素的状态时长信息
 
 声学模型的input的feature_dim为626维，表示文本特征和帧的位置特征
 
