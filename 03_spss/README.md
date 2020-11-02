@@ -107,13 +107,21 @@ bash bash/prepare.sh
 
 inputs为输入特征，input_length 为inputs的第一维维度， targets为预测结果
 
-#### 输入输出形状
+#### 输入输出
 
 inputs.shape = [seq_length, feature_dim]
 
 input_length = seq_length
 
 target.shape = [seq_length, target_dim]
+
+时长模型的input的feature_dim为617维，表示文本特征
+
+时长模型的output的target_dim为5维，表示每个音素的时长信息
+
+声学模型的input的feature_dim为626维，表示文本特征和帧的位置特征
+
+声学模型的output的target_dim为75维，表示目标音频的声学特征(lf0,mgc,bap)
 
 #### 任务说明
 
@@ -132,6 +140,8 @@ bash bash/train_acoustic.sh
 ```
 
 训练的模型结果分别保存在logdir_dur 和logdir_acoustic中
+
+训练总步数,checkpoint保存步数等可以在hparams.py中修改，判断模型是否收敛可以通过loss曲线和测试合成的效果判断，不一定需要跑完总步数。
 
 #### 通过tensorborad查看loss函数曲线
 
@@ -155,14 +165,14 @@ tensorboard --logdir=logdir_dur
 测试脚本第一个参数为输入label路径，第二个参数为输出路径，第三个参数为训练好的模型路径(例如：logdir_acoustic/model/model.ckpt-2000)
 
 ```bash
-bash bash/synthesis_acoustic.sh test_data/acoustic_feature output_acoustic <checkpoint>
+bash bash/synthesize_acoustic.sh test_data/acoustic_features output_acoustic <checkpoint>
 ```
 
 #### 2、测试时长模型 + 声学模型(使用时长模型的输出作为声学模型的输入)
 
 ```bash
-bash bash/synthesis_dur.sh test_data/duration_feature output_dur <checkpoint>
-bash bash/synthesis_acoustic.sh output_dur output_acoustic <checkpoint>
+bash bash/synthesize_dur.sh test_data/duration_features output_dur <checkpoint>
+bash bash/synthesize_acoustic.sh output_dur output_acoustic <checkpoint>
 ```
 
 最终合成语音在output_acoustic/syn_wav中

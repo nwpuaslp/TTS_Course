@@ -32,7 +32,7 @@ python synthesize.py --checkpoint=$checkpoint --label_dir=$label_dir --output_di
 
 echo "$0 $@"  #
 # tools directory
-world="tools/bin/World"
+world="tools/bin/World_v2"
 sptk="tools/bin/SPTK-3.9"
 
 # initializations

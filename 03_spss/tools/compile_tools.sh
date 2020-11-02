@@ -51,18 +51,18 @@ cp WORLD/build/synth $WORLD_BIN_DIR/
 
 echo "compiling World..."
 (
-    cd World;
+    cd World_v2;
     make
     cd examples/analysis_synthesis;
     make
 )
 
-WORLD2_BIN_DIR=bin/World
+WORLD2_BIN_DIR=bin/World_v2
 
 mkdir -p $WORLD2_BIN_DIR
 
-mv World/build/analysis $WORLD2_BIN_DIR/
-mv World/build/synthesis $WORLD2_BIN_DIR/
+mv World_v2/build/analysis $WORLD2_BIN_DIR/
+mv World_v2/build/synthesis $WORLD2_BIN_DIR/
 
 
 
