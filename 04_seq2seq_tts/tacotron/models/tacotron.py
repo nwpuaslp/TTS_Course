@@ -5,6 +5,7 @@ from modules.ops import *
 from utils import infolog
 from utils import plot
 from utils.utils import *
+from text.phones_mix import *
 
 log = infolog.log
 
@@ -29,7 +30,7 @@ class TacotronModel(BaseAcousticModel):
     def prepare_input(self):
         hparams = self.hparams
         embedding_table = tf.get_variable(
-            'phone_embedding', [len(phone_set), hparams.phone_embedding_dim], 
+            'phone_embedding', [len(phone_to_id), hparams.phone_embedding_dim], 
             dtype=tf.float32, initializer=tf.truncated_normal_initializer(stddev=0.5))
         embedded_inputs = tf.nn.embedding_lookup(embedding_table, self.phones)
 
