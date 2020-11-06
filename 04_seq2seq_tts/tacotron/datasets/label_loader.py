@@ -1,7 +1,6 @@
 import os
 import numpy as np
 from tqdm import tqdm
-from text.symbols import *
 from text.phones_mix import phone_to_id
 
 class LabelLoader():

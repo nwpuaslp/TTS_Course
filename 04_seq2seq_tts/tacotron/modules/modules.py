@@ -5,7 +5,6 @@ from tensorflow.python.framework import ops
 from tensorflow.python.ops import check_ops, array_ops, rnn_cell_impl, tensor_array_ops
 from tensorflow.python.util import nest
 import collections
-from text.symbols import *
 from modules.layers import *
 from modules.ops import *
 from modules.attention import *

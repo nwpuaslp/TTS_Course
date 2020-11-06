@@ -1,6 +1,5 @@
 import re
 import numpy as np
-from text.symbols import *
 import os
 from text.phones_mix import phone_to_id
 
