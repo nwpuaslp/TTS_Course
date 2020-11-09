@@ -9,4 +9,5 @@ python3 ${work_path}/infer.py \
    --yaml_conf=${work_path}/hparams.yaml \
    --checkpoint=${checkpoint} \
    --label_dir=${labels} \
-   --output_dir=${output_dir} 
+   --output_dir=${output_dir} \
+   --hparams="outputs_per_step=2"
